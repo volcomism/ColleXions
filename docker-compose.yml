@@ -1,0 +1,19 @@
+services:
+  collexions:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: collexions:latest
+    container_name: collexions
+    restart: always
+    volumes:
+      # Mount your custom config (read-only)
+      - ./config.json:/app/config.json:ro
+      # Persist logs on the host
+      - ./logs:/app/logs
+    environment:
+      # ensure Python unbuffered logging (already in Dockerfile)
+      - PYTHONUNBUFFERED=1
+    # no ports to expose—this is a scheduler loop
+    command: ["python3", "ColleXions.py"]
+
